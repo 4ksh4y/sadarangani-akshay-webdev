@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="TodoApp">
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="app.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container" ng-controller="TodoController">
+
+
+
+    <h1>Todo List</h1>
+    <label>Title</label>
+    <input class="form-control"/>
+    <label>Notes</label>
+    <textarea class="form-control"></textarea>
+    <br/>
+    <button class="btn btn-primary btn-block">Todo</button>
+
+    <h1>Todo List</h1>
+    <div ng-repeat="todo in todos">
+        <h3>{{todo.title}}</h3>
+        <p>{{todo.note}}</p>
+    </div>
+    <h3>Pick up kids</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
+
+    <h3>Music Lessons</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
+
+    <h3>Dance Lessons</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
+
+</div>
+</body>
+</html>
