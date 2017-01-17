@@ -6,10 +6,17 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="app.js"></script>
+    <style>
+        body {
+            background-color: #a94242;
+        }
+
+    </style>
 </head>
 <body>
     <div class="container" ng-controller="TestController as model">
 
+        <h4><a href="../">Home</a></h4>
         <h1>Test MongoDB</h1>
 
         <div ng-show="model.error"
