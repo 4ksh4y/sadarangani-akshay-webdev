@@ -1,0 +1,42 @@
+/*This stylesheet contains some custom class rather than Bootstrap*/
+
+html, body {
+	height:100%; 
+	margin:0;
+	padding:0
+}
+
+ body { 
+	-webkit-background-size: cover;
+     background:
+             linear-gradient(
+                     rgba(0, 0, 0, 0.75),
+                     rgba(0, 0, 0, 0.75)
+             ),
+             url("../../../assets/bg.jpg") no-repeat center center fixed;
+	 -moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+ p {
+	 color: #FFFFFF;
+ }
+
+ a {
+     color: #FF1493;
+ }
+ 
+.navbar {
+	background-color: transparent;
+	background: transparent;
+	border-color: transparent;
+}
+
+.navbar li { 
+	color: #000 
+} 
+
+h1, h2{
+	color: #000
+}

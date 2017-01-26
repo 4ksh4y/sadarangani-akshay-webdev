@@ -3,5 +3,42 @@ input.form-control {
 }
 
 body {
-    padding-top: 36px;
+    padding-top: 70px;
+    padding-bottom: 60px;
+    -webkit-background-size: cover;
+    background:
+            linear-gradient(
+                    rgba(0, 0, 0, 0.75),
+                    rgba(0, 0, 0, 0.75)
+            ),
+            url("../../../assets/bg.jpg") no-repeat center center fixed;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+p, h1 {
+    color: #FFFFFF;
+}
+
+a, label {
+    color: #FF1493;
+}
+
+.navbar-default {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.navbar-default .navbar-brand {
+    color: #FFFFFF;
+}
+.navbar-default .navbar-link {
+    color: #FFFFFF;
+}
+.navbar-text a, .navbar-brand a {
+    color: #FFFFFF;
+}
+
+.list-group-item {
+    background-color: rgba(0, 0, 0, 0.3);
 }
