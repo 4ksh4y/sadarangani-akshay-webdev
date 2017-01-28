@@ -3,8 +3,6 @@ input.form-control {
 }
 
 body {
-    padding-top: 70px;
-    padding-bottom: 60px;
     -webkit-background-size: cover;
     background:
             linear-gradient(
@@ -15,6 +13,8 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    padding-top: 70px;
+    padding-bottom: 60px;
 }
 
 .no-pad {
