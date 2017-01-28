@@ -13,13 +13,13 @@ html, body {
                      rgba(0, 0, 0, 0.75),
                      rgba(0, 0, 0, 0.75)
              ),
-             url("../../../assets/bg.jpg") no-repeat center center fixed;
+             url("../assets/bg.jpg") no-repeat center center fixed;
 	 -moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
 }
 
- p {
+ h1, h2, h3, p {
 	 color: #FFFFFF;
  }
 
@@ -35,8 +35,4 @@ html, body {
 
 .navbar li { 
 	color: #000 
-} 
-
-h1, h2{
-	color: #000
 }

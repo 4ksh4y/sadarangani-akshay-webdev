@@ -17,6 +17,17 @@ body {
     background-size: cover;
 }
 
+.no-pad {
+    padding-top: 0;
+}
+
+@media (max-width: 768px) {
+    .brand-padding {
+        padding-top: 15px;
+        padding-left: 0;
+    }
+}
+
 p, h1 {
     color: #FFFFFF;
 }
