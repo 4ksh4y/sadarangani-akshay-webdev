@@ -12,6 +12,7 @@ body {
             url("../../assets/bg.jpg") no-repeat center center fixed;
     -moz-background-size: cover;
     -o-background-size: cover;
+    background-size: cover;
 }
 
 .as-body-padding {
