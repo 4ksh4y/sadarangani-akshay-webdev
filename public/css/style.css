@@ -66,5 +66,22 @@ ul {
 }
 
 .navbar li { 
-	color: #000 
+	color: #000
+}
+
+.list-group-item {
+    color: #FF1493;
+}
+.as-list-header {
+    color: aqua;
+    font-weight: bold;
+}
+
+.as-list-header a{
+    color: aqua;
+    font-weight: bold;
+}
+
+.as-alt-pad {
+    padding-left: 5px;
 }
