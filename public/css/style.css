@@ -18,6 +18,10 @@
 	 color: #FFFFFF;
 	 text-align: center;
  }
+
+ th {
+     color: white;
+ }
  /*h1 {
 	 font-size: 70px;
  }
