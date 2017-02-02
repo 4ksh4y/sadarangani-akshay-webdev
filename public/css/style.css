@@ -22,6 +22,10 @@
  th {
      color: white;
  }
+
+ td {
+     color: #FF1493;
+ }
  /*h1 {
 	 font-size: 70px;
  }
