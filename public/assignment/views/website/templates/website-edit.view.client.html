@@ -63,6 +63,10 @@
                 <label for="newWebsiteDescription">Description</label>
                 <textarea ng-model="model.website.description" class="form-control" rows="5" id="newWebsiteDescription" placeholder="Description"></textarea>
             </div>
+            <div class="form-group">
+                <a class="btn btn-danger btn-block" id="delete-btn"
+                   ng-click="model.deleteWebsite()">Delete</a>
+            </div>
         </form>
         <div class="alert alert-danger" ng-show="model.error">{{model.error}}</div>
         <div class="alert alert-success" ng-show="model.message">{{model.message}}</div>

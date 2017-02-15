@@ -43,25 +43,13 @@
         <ul class="list-group">
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-xs-6 as-list-header">
+                    <div class="col-sm-11 as-list-header">
                         Name
                         <a>
                             <span class="glyphicon glyphicon-triangle-top"></span>
                         </a>
                     </div>
-                    <div class="col-xs-3 hidden-xs as-list-header">
-                        Last Updated
-                        <a>
-                            <span class="glyphicon glyphicon-triangle-top"></span>
-                        </a>
-                    </div>
-                    <div class="col-xs-2 hidden-xs as-list-header">
-                        Owner
-                        <a>
-                            <span class="glyphicon glyphicon-triangle-top"></span>
-                        </a>
-                    </div>
-                    <div class="col-xs-6 col-sm-1">
+                    <div class="col-sm-1">
                         <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/new" class="pull-right">
                             <span class="glyphicon glyphicon-plus as-list-header"></span>
                         </a>
@@ -70,18 +58,12 @@
             </li>
             <li ng-repeat="page in model.pages" class="list-group-item">
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-sm-11">
                         <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{page._id}}/widget">
                             {{page.name}}
                         </a>
                     </div>
-                    <div class="col-xs-3 hidden-xs">
-                        {{page.created | date}}
-                    </div>
-                    <div class="col-xs-2 hidden-xs">
-                        {{page.description}}
-                    </div>
-                    <div class="col-sm-1 col-xs-6">
+                    <div class="col-sm-1">
                         <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{page._id}}">
                             <span class="glyphicon glyphicon-cog pull-right"></span>
                         </a>

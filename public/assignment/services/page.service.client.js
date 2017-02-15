@@ -62,7 +62,7 @@
                 if( pages[p]._id === pageId) {
                     pages[p].name = page.name;
                     pages[p].description = page.description;
-                    return pages[w];
+                    return pages[p];
                 }
             }
             return null;
