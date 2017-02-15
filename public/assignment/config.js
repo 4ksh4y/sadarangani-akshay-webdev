@@ -7,19 +7,23 @@
         $routeProvider
             .when("/",{
                 templateUrl: 'views/user/templates/login.view.client.html',
-                controller: 'loginController',
+                controller: 'LoginController',
                 controllerAs: 'model'
             })
             .when("/login",{
                 templateUrl: 'views/user/templates/login.view.client.html',
-                controller: 'loginController',
+                controller: 'LoginController',
                 controllerAs: 'model'
             })
             .when("/register",{
-                templateUrl: 'views/user/templates/register.view.client.html'
+                templateUrl: 'views/user/templates/register.view.client.html',
+                controller: 'RegisterController',
+                controllerAs: 'model'
             })
             .when("/user/:uid", {
-                templateURL: 'views/user/templates/profile.view.client.html'
+                templateURL: 'views/user/templates/profile.view.client.html',
+                controller: 'ProfileController',
+                controllerAs: 'model'
             })
             .when("/user/:uid/website",{
                 templateUrl: 'views/website/templates/website-list.view.client.html',

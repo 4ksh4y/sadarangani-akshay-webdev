@@ -2,7 +2,7 @@
     <div class="row container-fluid">
         <div class="col-xs-12">
             <div class="navbar-text pull-right">
-                <a href="profile.view.client.html" class="navbar-link">
+                <a href="#/user/:uid" class="navbar-link">
                   <span class="glyphicon glyphicon-ok">
                   </span>
                 </a>
@@ -17,31 +17,31 @@
 </nav>
 
 
-    <div class="container-fluid">
-        <form>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="Username" value="4kshay">
-            </div>
-            <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" placeholder="alice@wonderland.com" value="4kshay@ccs.neu.edu">
-            </div>
-            <div class="form-group">
-                <label for="first-name">First Name</label>
-                <input type="text" class="form-control" id="first-name" placeholder="Alice" value="Akshay">
-            </div>
-            <div class="form-group">
-                <label for="last-name">Last Name</label>
-                <input type="text" class="form-control" id="last-name" placeholder="Wonderland" value="Sadarangani">
-            </div>
-        </form>
+<div class="container-fluid">
+    <form>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input ng-model="model.user.username" type="text" class="form-control" id="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input ng-model="model.user.email" type="email" class="form-control" id="email" placeholder="alice@wonderland.com">
+        </div>
+        <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input ng-model="model.user.firstname" type="text" class="form-control" id="first-name" placeholder="Alice">
+        </div>
+        <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input ng-model="model.user.lastname" type="text" class="form-control" id="last-name" placeholder="Wonderland">
+        </div>
+    </form>
 
-        <a class="btn btn-primary btn-block"
-           href="../website/website-list.view.client.html">Websites</a>
-        <a class="btn btn-danger  btn-block"
-           href="login.view.client.html">Logout</a>
-    </div>
+    <a class="btn btn-primary btn-block"
+       href="#/user/:uid/website">Websites</a>
+    <a class="btn btn-danger  btn-block"
+       href="#/login">Logout</a>
+</div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
