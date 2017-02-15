@@ -25,6 +25,10 @@
     function ProfileController($routeParams, UserService) {
         var vm = this;
         var userId = $routeParams['uid'];
+        var user = UserService.findUserById(userId);
+        vm.user = user;
+        console.log(user);
+
         vm.update = function (newUser) {
             var user = UserService.updateUser(userId, newUser);
             if(user == null) {
@@ -34,10 +38,17 @@
             }
         };
 
-        var user = UserService.findUserById(userId);
-        vm.user = user;
+        vm.delete = function (userId) {
+            var user = UserService.deleteUser(userId);
+            if (user != null) {
+                console.log("Deleted.");
+                vm.message = "Successfully deleted.";
+            }
+            else {
+                vm.error = "Some error occurred.";
+            }
+        };
 
-        console.log(user);
     }
 
     function RegisterController($location, UserService) {
@@ -57,7 +68,7 @@
                 return;
             }
             var newuser = UserService.createUser(user);
-            console.log(newuser._id);
+            console.log(newuser);
             $location.url("/user/"+newuser._id);
         }
     }

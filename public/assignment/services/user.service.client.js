@@ -33,7 +33,7 @@
                 lastName: user.lastName
             };
             users.push(new_user);
-            return angular.copy(new_user);
+            return new_user;
         }
 
         function updateUser(userId, newUser) {
@@ -85,8 +85,10 @@
                 var user = users[u];
                 if (user._id === userId) {
                     users.splice(u, 1);
+                    return true;
                 }
             }
+            return null;
         }
     }
 })();

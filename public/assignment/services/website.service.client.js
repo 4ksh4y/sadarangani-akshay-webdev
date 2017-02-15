@@ -5,12 +5,12 @@
     
     function WebsiteService() {
         var websites = [
-            { "_id": "123", "name": "Facebook",    "developerId": "456", "description": "Lorem"},
-            { "_id": "234", "name": "Tweeter",     "developerId": "456", "description": "Lorem"},
-            { "_id": "456", "name": "Gizmodo",     "developerId": "456", "description": "Lorem"},
-            { "_id": "567", "name": "Tic Tac Toe", "developerId": "123", "description": "Lorem"},
-            { "_id": "678", "name": "Checkers",    "developerId": "123", "description": "Lorem"},
-            { "_id": "789", "name": "Chess",       "developerId": "234", "description": "Lorem"}
+            { "_id": "123", "name": "Facebook", "developerId": "456", "description": "Lorem", created: new Date()} ,
+            { "_id": "234", "name": "Twitter",  "developerId": "456", "description": "Lorem", created: new Date() },
+            { "_id": "456", "name": "Gizmodo", "developerId": "456", "description": "Lorem", created: new Date() },
+            { "_id": "567", "name": "Tic Tac Toe", "developerId": "123", "description": "Lorem", created: new Date() },
+            { "_id": "678", "name": "Checkers", "developerId": "123", "description": "Lorem", created: new Date() },
+            { "_id": "789", "name": "Chess", "developerId": "234", "description": "Lorem", created: new Date() }
         ];
         var api = {
             "createWebsite": createWebsite,
@@ -22,12 +22,13 @@
         return api;
 
         function findWebsiteByUser(userId) {
+            var user_websites = [];
             for (var w in websites) {
                 if (websites[w].developerId === userId) {
-                    return angular.copy(websites[w]);
+                    user_websites.push(angular.copy(websites[w]));
                 }
             }
-            return null;
+            return user_websites;
         }
 
         function findWebsiteById(websiteId) {
@@ -49,7 +50,9 @@
         function createWebsite(userId, website) {
             website.developerId = userId;
             website._id = (new Date()).getTime();
+            website.created = (new Date());
             websites.push(website);
+            return website;
         }
 
         function updateWebsite(websiteId, website) {

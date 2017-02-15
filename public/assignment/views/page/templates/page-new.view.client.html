@@ -2,7 +2,7 @@
     <div class="row container-fluid alt-pad">
         <div class="col-sm-4 hidden-xs">
             <div class="navbar-text pull-left">
-                <a href="page-list.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page" class="navbar-link">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                 </a>
             </div>
@@ -12,19 +12,19 @@
                 </a>
             </div>
             <div class="navbar-text pull-right">
-                <a href="#">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/new">
                     <span class="glyphicon glyphicon-plus"></span>
                 </a>
             </div>
         </div>
         <div class="col-sm-8">
             <div class="navbar-text pull-left">
-                <a href="page-list.view.client.html" class="navbar-link">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page" class="navbar-link">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                 </a>
             </div>
             <div class="navbar-text pull-right">
-                <a href="page-list.view.client.html">
+                <a ng-click="model.createPage(page)">
                     <span class="glyphicon glyphicon-ok"></span>
                 </a>
             </div>
@@ -42,63 +42,50 @@
     <div class="col-sm-4 hidden-xs">
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="../widget/widget-list.view.client.html">
-                    Book App
-                </a>
-                <div class="pull-right">
-                    <a href="page-edit.view.client.html">
-                        <span class="glyphicon glyphicon-cog"></span>
-                    </a>
+                <div class="row">
+                    <div class="col-xs-6 as-list-header">
+                        Name
+                        <a>
+                            <span class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </div>
+                    <div class="col-xs-3 hidden-xs as-list-header">
+                        Last Updated
+                        <a>
+                            <span class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </div>
+                    <div class="col-xs-2 hidden-xs as-list-header">
+                        Owner
+                        <a>
+                            <span class="glyphicon glyphicon-triangle-top"></span>
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-1">
+                        <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/new" class="pull-right">
+                            <span class="glyphicon glyphicon-plus as-list-header"></span>
+                        </a>
+                    </div>
                 </div>
             </li>
-            <li class="list-group-item">
-                <a href="../widget/widget-list.view.client.html">
-                    Blog Post
-                </a>
-                <div class="pull-right">
-                    <a href="page-edit.view.client.html">
-                        <span class="glyphicon glyphicon-cog"></span>
-                    </a>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <a href="../widget/widget-list.view.client.html">
-                    Blogs
-                </a>
-                <div class="pull-right">
-                    <a href="page-edit.view.client.html">
-                        <span class="glyphicon glyphicon-cog"></span>
-                    </a>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <a href="../widget/widget-list.view.client.html">
-                    Home
-                </a>
-                <div class="pull-right">
-                    <a href="page-edit.view.client.html">
-                        <span class="glyphicon glyphicon-cog"></span>
-                    </a>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <a href="../widget/widget-list.view.client.html">
-                    About
-                </a>
-                <div class="pull-right">
-                    <a href="page-edit.view.client.html">
-                        <span class="glyphicon glyphicon-cog"></span>
-                    </a>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <a href="../widget/widget-list.view.client.html">
-                    Contact Us
-                </a>
-                <div class="pull-right">
-                    <a href="page-edit.view.client.html">
-                        <span class="glyphicon glyphicon-cog"></span>
-                    </a>
+            <li ng-repeat="page in model.pages" class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{page._id}}/widget">
+                            {{page.name}}
+                        </a>
+                    </div>
+                    <div class="col-xs-3 hidden-xs">
+                        {{page.created | date}}
+                    </div>
+                    <div class="col-xs-2 hidden-xs">
+                        {{page.description}}
+                    </div>
+                    <div class="col-sm-1 col-xs-6">
+                        <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{page._id}}">
+                            <span class="glyphicon glyphicon-cog pull-right"></span>
+                        </a>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -106,14 +93,16 @@
     <div class="col-sm-8">
         <form>
             <div class="form-group">
-                <label for="exampleInputName">Name</label>
-                <input type="text" class="form-control" id="exampleInputName" placeholder="Name">
+                <label for="newPageName">Name</label>
+                <input ng-model="page.name" type="text" class="form-control" id="newPageName" placeholder="Page Name">
             </div>
             <div class="form-group">
-                <label for="exampleInputTitle">Title</label>
-                <input type="text" class="form-control" id="exampleInputTitle" placeholder="Description">
+                <label for="newPageDescription">Description</label>
+                <input ng-model="page.description" type="text" class="form-control" id="newPageDescription" placeholder="Description">
             </div>
         </form>
+        <div class="alert alert-danger" ng-show="model.error">{{model.error}}</div>
+        <div class="alert alert-success" ng-show="model.message">{{model.message}}</div>
     </div>
 </div>
 

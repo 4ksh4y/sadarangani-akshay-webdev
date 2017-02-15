@@ -8,9 +8,9 @@
 
     function PageService() {
         var pages = [
-            { "_id": "321", "name": "Post 1", "websiteId": "456", "description": "Lorem" },
-            { "_id": "432", "name": "Post 2", "websiteId": "456", "description": "Lorem" },
-            { "_id": "543", "name": "Post 3", "websiteId": "456", "description": "Lorem" }
+            { "_id": "321", "name": "Post 1", "websiteId": "456", "description": "Lorem", created: new Date() },
+            { "_id": "432", "name": "Post 2", "websiteId": "456", "description": "Lorem", created: new Date() },
+            { "_id": "543", "name": "Post 3", "websiteId": "678", "description": "Lorem", created: new Date() }
         ];
 
         var api = {
@@ -23,13 +23,15 @@
         return api;
 
         function findPageByWebsiteId(websiteId) {
+            var user_pages = [];
             for (var p in pages) {
                 if (pages[p].websiteId === websiteId) {
-                    return angular.copy(pages[p]);
+                    user_pages.push(angular.copy(pages[p]));
                 }
             }
-            return null;
-        }
+            return user_pages;
+            }
+
 
         function findPageById(pageId) {
             for(var p in pages) {
@@ -50,7 +52,9 @@
         function createPage(websiteId, page) {
             page.websiteId = websiteId;
             page._id = (new Date()).getTime();
+            page.created = new Date();
             pages.push(page);
+            return page;
         }
 
         function updatePage(pageId, page) {

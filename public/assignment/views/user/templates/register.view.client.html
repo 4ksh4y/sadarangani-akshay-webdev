@@ -40,4 +40,7 @@
            ng-click="model.register(user)">Register</a>
         <a class="btn btn-danger  btn-block"
            href="#/login">Cancel</a>
+    <div class="alert alert-danger" ng-show="model.error">{{model.error}}</div>
+    <div class="alert alert-success" ng-show="model.message">{{model.message}}</div>
+
 </div>
