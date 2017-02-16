@@ -28,7 +28,7 @@
         init();
 
         function createWebsite (website) {
-            if(website.name == "" || website.name == null || website.description == "" || website.description == null){
+            if(website == null || website.name == "" || website.name == null || website.description == "" || website.description == null){
                 vm.error = "Please fill all details";
                 return;
             }

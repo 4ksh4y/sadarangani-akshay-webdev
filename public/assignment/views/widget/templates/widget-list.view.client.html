@@ -2,13 +2,13 @@
         <div class="row container-fluid">
             <div class="col-xs-12">
                 <div class="navbar-text pull-right">
-                    <a href="widget-chooser.view.client.html" class="navbar-link">
-                      <span class="glyphicon glyphicon-plus">
-                      </span>
+                    <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/new"
+                       class="navbar-link">
+                      <span class="glyphicon glyphicon-plus"></span>
                     </a>
                 </div>
                 <div class="navbar-text pull-left">
-                    <a href="../page/page-list.view.client.html" class="navbar-link">
+                    <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page" class="navbar-link">
                         <span class="glyphicon glyphicon-chevron-left"></span>
                     </a>
                 </div>
@@ -22,7 +22,32 @@
     </nav>
 
     <div class="container-fluid as-bottom-pad">
-        <div>
+    <div ng-repeat="widget in model.widgets">
+        <div class="as-toolbar">
+            <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{widget._id}}">
+                <span class="glyphicon glyphicon-cog"></span>
+            </a>
+            <span class="glyphicon glyphicon-align-justify"></span>
+        </div>
+
+
+            <div ng-switch="widget.widgetType">
+                <div ng-switch-when="HEADING">
+                    <ng-include src="'views/widget/templates/widget-heading.view.client.html'">
+                </div>
+                <div ng-switch-when="IMAGE">
+                    <ng-include src="'views/widget/templates/widget-image.view.client.html'">
+                </div>
+                <div ng-switch-when="YOUTUBE">
+                    <ng-include src="'views/widget/templates/widget-youtube.view.client.html'">
+                </div>
+                <div ng-switch-when="HTML">
+                    <ng-include src="'views/widget/templates/widget-html.view.client.html'">
+                </div>
+            </div>
+        </div>
+    </div>
+       <!-- <div>
             <div class="as-toolbar">
                 <a href="widget-heading.view.client.html">
                     <span class="glyphicon glyphicon-cog"></span>
@@ -73,7 +98,7 @@
             </div>
             <iframe width="100%" src="https://www.youtube.com/embed/7HBux5Ke13M" frameborder="0" allowfullscreen></iframe>
         </div>
-    </div>
+    </div>-->
 
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="row container-fluid">

@@ -14,8 +14,7 @@
 	background-size: cover;
 }
 
- h1, h2, h3, p {
-	 color: #FFFFFF;
+ .as-heading {
 	 text-align: center;
  }
 
