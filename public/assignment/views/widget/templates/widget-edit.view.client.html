@@ -19,8 +19,6 @@
                 </a>
             </div>
         </div>
-        <div class="alert alert-danger" ng-show="model.error">{{model.error}}</div>
-        <div class="alert alert-success" ng-show="model.message">{{model.message}}</div>
     </div>
 </nav>
 <div class="container-fluid"
@@ -31,6 +29,9 @@
     <a class="btn btn-danger btn-block" id="delete-btn"
        ng-click="model.deleteWidget()">Delete</a>
 </div>
+
+<div class="alert alert-danger" ng-show="model.error">{{model.error}}</div>
+<div class="alert alert-success" ng-show="model.message">{{model.message}}</div>
 
 <!--delete and update buttons-->
 

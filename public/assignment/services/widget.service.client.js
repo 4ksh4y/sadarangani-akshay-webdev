@@ -56,10 +56,15 @@
         function updateWidget(widgetId, widget) {
             for(var w in widgets) {
                 if( widgets[w]._id === widgetId) {
-                    widgets[w].text = widget.text;
+                    if(widget.text)
+                        widgets[w].text = widget.text;
                     if(widget.size) {
                         widgets[w].size = widget.size;
                     }
+                    if(widget.url)
+                        widgets[w].url = widget.url;
+                    if(widget.width)
+                        widgets[w].width = widget.width;
                     return widgets[w];
                 }
             }
