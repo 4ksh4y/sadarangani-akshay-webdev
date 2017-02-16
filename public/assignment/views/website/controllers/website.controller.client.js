@@ -49,7 +49,6 @@
 
         var website = WebsiteService.findWebsiteById(vm.websiteId);
         vm.website = website;
-        console.log(vm.website);
         function init() {
             vm.websites = WebsiteService.findWebsiteByUser(vm.userId);
         }

@@ -17,7 +17,6 @@
             vm.widgets = WidgetService.findWidgetsByPageId(vm.pageId);
         }
         init();
-        console.log(vm.widgets);
 
         function getWidgetTemplateUrl(widgetType) {
             var url = 'views/widget/templates/widget-'+widgetType+'.view.client.html';
@@ -36,7 +35,7 @@
         }
     }
 
-    function WidgetEditController($routeParams, WidgetService) {
+    function WidgetEditController($routeParams, WidgetService,$location) {
         var vm = this;
         vm.userId = $routeParams.uid;
         vm.websiteId = $routeParams.wid;
@@ -52,6 +51,29 @@
         function getEditorTemplateUrl(type) {
             return 'views/widget/templates/editors/widget-'+type+'-editor.view.client.html';
         }
+
+        function deleteWidget () {
+            WidgetService.deleteWidget(vm.widgetId);
+            $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page/"+vm.pageId+"/widget");
+            vm.error = "Unable to delete website";
+        }
+
+        function updateWidget(_widget) {
+            console.log("Reached update");
+            var updated_widget = WidgetService.updateWidget(vm.widgetId, _widget);
+            if(updated_widget == null) {
+                vm.error = "Unable to update widget";
+                return;
+            } else {
+                vm.message = "Widget successfully updated"
+                $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page/"+vm.pageId+"/widget");
+            }
+
+
+        }
+
+
+
     }
 
     function WidgetNewController($routeParams, WidgetService) {

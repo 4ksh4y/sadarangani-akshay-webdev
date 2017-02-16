@@ -13,11 +13,15 @@
         vm.login = login;
 
         function login(user) {
+            if(user == null || user.username == "" || user.password == ""){
+                vm.error = "Please enter your details!";
+                return;
+            }
             var loginUser = UserService.findUserByCredentials(user.username, user.password);
             if(loginUser != null) {
                 $location.url('/user/' + loginUser._id);
             } else {
-                vm.error = 'user not found';
+                vm.error = 'User not found';
             }
         }
     }
@@ -32,9 +36,9 @@
         vm.update = function (newUser) {
             var user = UserService.updateUser(userId, newUser);
             if(user == null) {
-                vm.error = "unable to update user";
+                vm.error = "Unable to update user";
             } else {
-                vm.message = "user successfully updated"
+                vm.message = "User successfully updated"
             }
         };
 
@@ -54,7 +58,7 @@
     function RegisterController($location, UserService) {
         var vm = this;
         vm.register = function register(user) {
-            if(user == null || user.username == null || user.password == null){
+            if(user == null || user.username == null || user.password == null || user.usernam == "" || user.password == ""){
                 vm.error = "Please enter your details!";
                 return;
             }

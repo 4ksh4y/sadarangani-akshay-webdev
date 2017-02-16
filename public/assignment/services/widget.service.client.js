@@ -8,11 +8,12 @@
             { "_id": "123", "widgetType": "HEADING", "pageId": "321", "size": 2, "text": "GIZMODO"},
             { "_id": "234", "widgetType": "HEADING", "pageId": "321", "size": 4, "text": "Lorem ipsum"},
             { "_id": "345", "widgetType": "IMAGE", "pageId": "321", "width": "100%",
-                "url": "http://lorempixel.com/400/200/"},
+                "url": "https://images.unsplash.com/photo-1469573054742-64da3f2527fc?" +
+                "dpr=1.25&auto=format&fit=crop&w=1500&h=1199&q=80&cs=tinysrgb&crop="},
             { "_id": "456", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum para</p>"},
             { "_id": "567", "widgetType": "HEADING", "pageId": "321", "size": 4, "text": "Lorem ipsum"},
             { "_id": "678", "widgetType": "YOUTUBE", "pageId": "321", "width": "100%",
-                "url": "https://youtu.be/AM2Ivdi9c4E" },
+                "url": "https://youtu.be/7HBux5Ke13M" },
             { "_id": "789", "widgetType": "HTML", "pageId": "321", "text": "<p>Lorem ipsum</p>"}
             ];
 
@@ -41,6 +42,7 @@
             for(var w in widgets) {
                 if(widgets[w]._id === widgetId) {
                     widgets.splice(w, 1);
+                    return true;
                 }
             }
         }
@@ -55,6 +57,9 @@
             for(var w in widgets) {
                 if( widgets[w]._id === widgetId) {
                     widgets[w].text = widget.text;
+                    if(widget.size) {
+                        widgets[w].size = widget.size;
+                    }
                     return widgets[w];
                 }
             }
