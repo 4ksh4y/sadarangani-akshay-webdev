@@ -16,9 +16,6 @@
     </div>
 </nav>
 
-<div class="alert alert-danger" ng-show="model.error">{{model.error}}</div>
-<div class="alert alert-success" ng-show="model.message">{{model.message}}</div>
-
 <div class="container-fluid">
     <form>
         <div class="form-group">
@@ -48,6 +45,8 @@
     <a class="btn btn-danger  btn-block"
        ng-click="model.delete(model.user._id)">Delete Profile</a>
 </div>
+<div class="alert alert-danger" ng-show="model.error">{{model.error}}</div>
+<div class="alert alert-success" ng-show="model.message">{{model.message}}</div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
