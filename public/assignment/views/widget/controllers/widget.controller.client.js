@@ -42,6 +42,8 @@
         vm.pageId = $routeParams.pid;
         vm.widgetId = $routeParams.wgid;
         vm.getEditorTemplateUrl = getEditorTemplateUrl;
+        vm.updateWidget = updateWidget;
+        vm.deleteWidget = deleteWidget;
 
         function init() {
             vm.widget = WidgetService.findWidgetById(vm.widgetId);
@@ -58,8 +60,27 @@
             vm.error = "Unable to delete website";
         }
 
+        function updateWidget(_widget, _widget_size) {
+            console.log("Reached update");
+            if(_widget.type == "HEADING") {
+                _widget.size = _widget_size;
+            }
+            var updated_widget = WidgetService.updateWidget(vm.widgetId, _widget);
+            if(updated_widget == null) {
+                vm.error = "Unable to update widget";
+                return;
+            } else {
+                vm.message = "Widget successfully updated"
+                $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page/"+vm.pageId+"/widget");
+            }
+
+
+        }
         function updateWidget(_widget) {
             console.log("Reached update");
+            if(_widget.type == "HEADING") {
+                _widget.size = widget.size;
+            }
             var updated_widget = WidgetService.updateWidget(vm.widgetId, _widget);
             if(updated_widget == null) {
                 vm.error = "Unable to update widget";
