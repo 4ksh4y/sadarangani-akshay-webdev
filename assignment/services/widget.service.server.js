@@ -8,6 +8,7 @@ module.exports = function (app) {
     app.get("/api/widget/:widgetId", findWidgetById);
     app.put("/api/widget/:widgetId", updateWidget);
     app.delete("/api/widget/:widgetId", deleteWidget);
+    app.put("/page/:pageId/widget", updateWidgetIndex);
 
     var multer = require('multer'); // npm install multer --save
     var upload = multer({ dest: __dirname+'/../../public/uploads' });
@@ -63,9 +64,15 @@ module.exports = function (app) {
         res.sendStatus(404);
     }
 
-    function deleteUploadedImage(imageName) {
-        fs.unlink(uploadsDirectory+"/"+imageName, function(err){
+    function updateWidgetIndex(req, res) {
+        var pageId = req.params.pageId;
+        var initialIndex = parseInt(req.query.initial);
+        var finalIndex = parseInt(req.query.final);
+        var page_widgets = widgets.filter(function (w) {
+            return w.pageId === pageId;
         });
+        
+        res.sendStatus(200);
     }
 
     function findWidgetById(req, res) {
