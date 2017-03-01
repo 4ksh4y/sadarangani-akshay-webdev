@@ -1,3 +1,32 @@
+<script>
+    $( document ).ready(function() {
+        $.extend({
+            getUrlVars: function(){
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for(var i = 0; i < hashes.length; i++)
+                {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            },
+            getUrlVar: function(name){
+                return $.getUrlVars()[name];
+            }
+        });
+        // Getting query string param val
+        var newWidget = $.getUrlVar('new');
+        if(newWidget == "yes") {
+            $('#back-btn').click(function () {
+               $('#delete-btn').click();
+               return false;
+            });
+        }
+    });
+</script>
+
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="row container-fluid">
         <div class="col-xs-12">
@@ -8,7 +37,7 @@
                 </a>
             </div>
             <div class="navbar-text pull-left">
-                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget"
+                <a id="back-btn" href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget"
                    class="navbar-link">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                 </a>

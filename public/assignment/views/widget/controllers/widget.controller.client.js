@@ -94,6 +94,7 @@
         vm.userId = $routeParams.uid;
         vm.websiteId = $routeParams.wid;
         vm.pageId = $routeParams.pid;
+        vm.newWidget = true;
         vm.createHeadingWidget = createHeadingWidget;
         vm.createMediaWidget = createMediaWidget;
         vm.createHTMLWidget = createHTMLWidget;
@@ -109,7 +110,7 @@
             WidgetService
                 .createWidget(vm.pageId, newWidget)
                 .success(function (widget) {
-                    $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page/"+vm.pageId+"/widget/"+widget._id);
+                    $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page/"+vm.pageId+"/widget/"+widget._id+"?new=yes");
                 })
                 .error(function () {
                     vm.error = "Could not create widget";
@@ -126,7 +127,7 @@
             WidgetService
                 .createWidget(vm.pageId, newWidget)
                 .success(function (widget) {
-                    $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page/"+vm.pageId+"/widget/"+widget._id);
+                    $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page/"+vm.pageId+"/widget/"+widget._id+"?new=yes");
                 })
                 .error(function () {
                    vm.error = "Could not create widget";
@@ -142,7 +143,7 @@
             WidgetService
                 .createWidget(vm.pageId, newWidget)
                 .success(function (widget) {
-                    $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page/"+vm.pageId+"/widget/"+widget._id);
+                    $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page/"+vm.pageId+"/widget/"+widget._id+"?new=yes");
                 })
                 .error(function () {
                     vm.error = "Could not create widget";
