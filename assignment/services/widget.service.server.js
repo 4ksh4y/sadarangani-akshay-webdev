@@ -71,7 +71,7 @@ module.exports = function (app) {
         var page_widgets = widgets.filter(function (w) {
             return w.pageId === pageId;
         });
-        
+
         res.sendStatus(200);
     }
 

@@ -13,8 +13,7 @@
             element.sortable(
                 {
                     axis: "y",
-                    handle: ".glyphicon.glyphicon-align-justify",
-                    cursor: "move"
+                    handle: ".glyphicon.glyphicon-align-justify"
                 });
         }
         return {
