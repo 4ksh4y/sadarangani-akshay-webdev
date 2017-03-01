@@ -78,14 +78,6 @@
         }
 
         function updateWidget(_widget) {
-            /*if(_widget.type == "HEADING") {
-                _widget.size = widget.size;
-                _widget.text = widget.text;
-            }
-            if(_widget.type == "IMAGE") {
-                _widget.width = widget.width;
-                _widget.url = _widget.url;
-            }*/
             WidgetService
                 .updateWidget(vm.widgetId, _widget)
                 .success(function () {
@@ -104,6 +96,7 @@
         vm.pageId = $routeParams.pid;
         vm.createHeadingWidget = createHeadingWidget;
         vm.createMediaWidget = createMediaWidget;
+        vm.createHTMLWidget = createHTMLWidget;
         vm.getEditorTemplateUrl = getEditorTemplateUrl;
 
         function createMediaWidget(type) {
@@ -124,7 +117,6 @@
         }
 
         function createHeadingWidget() {
-            console.log("in createHeading");
             var newWidget = {
                 widgetType: "HEADING",
                 pageId: vm.pageId,
@@ -138,6 +130,22 @@
                 })
                 .error(function () {
                    vm.error = "Could not create widget";
+                });
+        }
+
+        function createHTMLWidget() {
+            var newWidget = {
+                widgetType: "HTML",
+                pageId: vm.pageId,
+                text: "<p>New Paragraph</p>"
+            };
+            WidgetService
+                .createWidget(vm.pageId, newWidget)
+                .success(function (widget) {
+                    $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page/"+vm.pageId+"/widget/"+widget._id);
+                })
+                .error(function () {
+                    vm.error = "Could not create widget";
                 });
         }
 
