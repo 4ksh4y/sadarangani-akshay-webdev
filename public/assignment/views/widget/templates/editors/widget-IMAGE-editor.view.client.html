@@ -1,5 +1,9 @@
 <script>
     $('#updateWidgetBtn').hide();
+    /*$('#btn-url').click(function(){
+       model.widget.url = window.prompt("Enter Image URL","http://");
+       model.updateWidget(model.widget);
+    });*/
 </script>
 
 <h1>IMAGE Editor</h1>
@@ -29,7 +33,9 @@
             <input  name="uid" value="{{model.userId}}"   style="display: none"/>
             <input  name="wid" value="{{model.websiteId}}"   style="display: none"/>
             <input  name="widgetId" value="{{model.widget._id}}"   style="display: none"/>
-            <button type="submit"   class="btn btn-block btn-primary">Upload Image</button>
+            <button type="submit" class="btn btn-block btn-primary">Upload Image</button>
+            <!--<br />
+            <button id="btn-url" class="btn btn-block btn-primary">Enter Image URL</button>-->
         </div>
     </form>
 </div>

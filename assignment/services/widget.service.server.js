@@ -12,6 +12,7 @@ module.exports = function (app) {
 
     var multer = require('multer'); // npm install multer --save
     var upload = multer({ dest: __dirname+'/../../public/uploads' });
+    var fs = require('fs');
 
     app.post ("/api/upload", upload.single('myFile'), uploadImage);
 
@@ -57,8 +58,9 @@ module.exports = function (app) {
                 return widget._id == widgetId;
             });
             imageWidget.width = width;
-            imageWidget.url = req.protocol + '://' +req.get('host')+"/uploads/"+myFile.filename;
-            res.redirect("/assignment/#/user/"+uid+"/website/"+websiteId+"/page/"+imageWidget.pageId+"/widget");
+            imageWidget.url = req.protocol + '://' + req.get('host') + "/uploads/" + myFile.filename;
+            res.redirect("/assignment/#/user/" + uid + "/website/" + websiteId + "/page/"
+                + imageWidget.pageId + "/widget");
             return;
         }
         res.sendStatus(404);
@@ -102,6 +104,11 @@ module.exports = function (app) {
         for (var w in widgets) {
             var widget = widgets[w];
             if (widget._id === widgetId) {
+                if(widget.widgetType == "IMAGE") {  //delete image
+                    var path = __dirname+'/../../public/uploads/' +
+                        widget.url.split('//').pop().split("/").pop();
+                    fs.unlinkSync(path);
+                }
                 var delIndex = widget.index;
                 widgets.splice(w, 1);
                 for (var wig in widgets) {
