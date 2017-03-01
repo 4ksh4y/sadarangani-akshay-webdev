@@ -105,10 +105,13 @@ module.exports = function (app) {
             var widget = widgets[w];
             if (widget._id === widgetId) {
                 if(widget.widgetType == "IMAGE") {  //delete image
-                    var path = __dirname+'/../../public/uploads/' +
-                        widget.url.split('//').pop().split("/").pop();
-                    if(fs.existsSync(path))
-                        fs.unlinkSync(path);
+                    var fileName = widget.url.split('//').pop().split("/").pop();
+                    if(fileName) {
+                        var path = __dirname + '/../../public/uploads/' + fileName;
+                        if (fs.existsSync(path)) {  //delete if uploaded file
+                            fs.unlinkSync(path);
+                        }
+                    }
                 }
                 var delIndex = widget.index;
                 widgets.splice(w, 1);
