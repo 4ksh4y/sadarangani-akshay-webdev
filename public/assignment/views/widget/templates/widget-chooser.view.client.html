@@ -21,48 +21,32 @@
     <div class="col-xs-12">
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="widget-heading.view.client.html">
-                    Header
+                <a ng-click="model.createHeadingWidget()">
+                    Heading
                 </a>
             </li>
             <li class="list-group-item">
-                <a href="#">
-                    Label
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href="#">
+                <a href="#/creators/widget-HTML-creator.view.client.html">
                     HTML
                 </a>
             </li>
             <li class="list-group-item">
-                <a href="#">
-                    Text Input
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href="#">
-                    Link
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href="#">
-                    Button
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href="widget-image.view.client.html">
+                <a ng-click="model.createMediaWidget('IMAGE')">
                     Image
                 </a>
             </li>
             <li class="list-group-item">
-                <a href="widget-youtube.view.client.html">
+                <a ng-click="model.createMediaWidget('YOUTUBE')">
                     Youtube
                 </a>
             </li>
         </ul>
     </div>
 </div>
+
+<div class="alert alert-danger" ng-show="model.error">{{model.error}}</div>
+<div class="alert alert-success" ng-show="model.message">{{model.message}}</div>
+
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="row container-fluid">

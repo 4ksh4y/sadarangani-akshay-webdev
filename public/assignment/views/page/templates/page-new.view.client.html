@@ -82,6 +82,10 @@
                 <label for="newPageDescription">Description</label>
                 <input ng-model="page.description" type="text" class="form-control" id="newPageDescription" placeholder="Description">
             </div>
+            <div class="form-group">
+                <a class="btn btn-success btn-block" id="create-btn"
+                   ng-click="model.createPage(page)">Create Page</a>
+            </div>
         </form>
         <div class="alert alert-danger" ng-show="model.error">{{model.error}}</div>
         <div class="alert alert-success" ng-show="model.message">{{model.message}}</div>

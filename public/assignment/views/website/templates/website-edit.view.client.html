@@ -64,6 +64,10 @@
                 <textarea ng-model="model.website.description" class="form-control" rows="5" id="newWebsiteDescription" placeholder="Description"></textarea>
             </div>
             <div class="form-group">
+                <a class="btn btn-info btn-block" id="update-btn"
+                   ng-click="model.updateWebsite(model.websiteId, model.website)">Update</a>
+            </div>
+            <div class="form-group">
                 <a class="btn btn-danger btn-block" id="delete-btn"
                    ng-click="model.deleteWebsite()">Delete</a>
             </div>

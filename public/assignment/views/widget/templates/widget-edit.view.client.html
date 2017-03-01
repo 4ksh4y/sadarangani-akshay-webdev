@@ -21,11 +21,30 @@
         </div>
     </div>
 </nav>
-<div class="container-fluid"
-     ng-include="model.getEditorTemplateUrl(model.widget.widgetType)">
+<div class="container-fluid">
+    <div ng-switch="model.widget.widgetType">
+        <div ng-switch-when="HEADING">
+            <ng-include src="'views/widget/templates/editors/widget-HEADING-editor.view.client.html'">
+        </div>
+        <div ng-switch-when="IMAGE">
+            <ng-include src="'views/widget/templates/editors/widget-IMAGE-editor.view.client.html'">
+        </div>
+        <div ng-switch-when="YOUTUBE">
+            <ng-include src="'views/widget/templates/editors/widget-YOUTUBE-editor.view.client.html'">
+        </div>
+        <div ng-switch-when="HTML">
+            <ng-include src="'views/widget/templates/editors/widget-HTML-editor.view.client.html'">
+        </div>
+    </div>
 </div>
+<!--<div class="container-fluid"
+     ng-include="model.getEditorTemplateUrl(model.widget.widgetType)">
+</div>-->
 <br />
-<div class="container-fluid form-group">
+<div class="container-fluid">
+    <a class="btn btn-primary btn-block"
+       ng-click="model.updateWidget(model.widget)">Update</a>
+    <br />
     <a class="btn btn-danger btn-block" id="delete-btn"
        ng-click="model.deleteWidget()">Delete</a>
 </div>

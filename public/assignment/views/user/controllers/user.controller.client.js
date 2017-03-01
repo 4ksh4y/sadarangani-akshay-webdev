@@ -13,67 +13,102 @@
         vm.login = login;
 
         function login(user) {
-            if(user == null || user.username == "" || user.password == ""){
-                vm.error = "Please enter your details!";
-                return;
+            if (user == null          ||
+                user.username == ""   ||
+                user.password == null ||
+                user.password == ""){
+                    vm.error = "Please enter your credentials!";
+                    return;
             }
-            var loginUser = UserService.findUserByCredentials(user.username, user.password);
-            if(loginUser != null) {
-                $location.url('/user/' + loginUser._id);
-            } else {
+            var promise = UserService.findUserByCredentials(user.username, user.password);
+            promise.success(function (user) {
+                    $location.url('/user/' + user._id);
+            });
+            promise.error(function (user) {
                 vm.error = 'User not found';
-            }
+            });
         }
     }
 
-    function ProfileController($routeParams, UserService) {
+    function ProfileController($routeParams, UserService, $location) {
         var vm = this;
         var userId = $routeParams['uid'];
-        var user = UserService.findUserById(userId);
-        vm.user = user;
-        console.log(user);
+
+        function init() {
+            var promise = UserService.findUserById(userId);
+            promise.success(function(user) {
+                vm.user = user;
+            });
+        }
+        init();
 
         vm.update = function (newUser) {
-            var user = UserService.updateUser(userId, newUser);
-            if(user == null) {
-                vm.error = "Unable to update user";
-            } else {
-                vm.message = "User successfully updated"
-            }
+                UserService
+                    .updateUser(userId, newUser)
+                    .success(function () {
+                        vm.message = "User successfully updated"
+                     })
+                    .error(function() {
+                        vm.error = "Unable to update user";
+                    })
+
         };
 
         vm.delete = function (userId) {
-            var user = UserService.deleteUser(userId);
-            if (user != null) {
-                console.log("Deleted.");
-                vm.message = "Successfully deleted.";
-            }
-            else {
-                vm.error = "Some error occurred.";
+            var answer = confirm("Are you sure?");
+            if(answer) {
+                UserService
+                    .deleteUser(userId)
+                    .success(function() {
+                        $location.url("/login");
+                    })
+                    .error(function() {
+                        vm.error = "Some error occurred.";
+                    });
             }
         };
-
     }
 
     function RegisterController($location, UserService) {
         var vm = this;
         vm.register = function register(user) {
-            if(user == null || user.username == null || user.password == null || user.usernam == "" || user.password == ""){
-                vm.error = "Please enter your details!";
-                return;
+            if (user == null          ||
+                user.username == null ||
+                user.password == null ||
+                user.username == ""   ||
+                user.password == ""   ||
+                user.email == null    ||
+                user.email == ""){
+                    vm.error = "Please enter all your details!";
+                    return;
             }
             if (user.password != user.verifypassword) {
                 vm.error = "Password mismatch";
                 return;
             }
-            var check_username = UserService.findUserByUsername(user.username);
-            if (check_username != null){
-                vm.error = "Username already in use.";
-                return;
-            }
-            var newuser = UserService.createUser(user);
-            console.log(newuser);
-            $location.url("/user/"+newuser._id);
+
+            UserService.findUserByUsername(user.username)
+                .success(function (user) {
+                    vm.error = "Username " + user.username + " already in use.";
+                })
+                .error(function() {
+                    var newUser = {
+                        username: user.username,
+                        password: user.password,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email
+                    };
+                    UserService.createUser(newUser)
+                        .success(function(user) {
+                            $location.url("/user/"+user._id);
+                        })
+                        .error(function() {
+                            vm.error = "Could not register";
+                        });
+
+                });
+
         }
     }
 })();

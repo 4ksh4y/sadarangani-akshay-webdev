@@ -20,7 +20,7 @@
     <form>
         <div class="form-group">
             <label for="username">Username</label>
-            <input ng-model="model.user.username" type="text" class="form-control" id="username" placeholder="Username">
+            <input ng-model="model.user.username" type="text" class="form-control" id="username" placeholder="Username" disabled>
         </div>
         <div class="form-group">
             <label for="email">Email address</label>
@@ -45,6 +45,7 @@
     <a class="btn btn-danger  btn-block"
        ng-click="model.delete(model.user._id)">Delete Profile</a>
 </div>
+<br />
 <div class="alert alert-danger" ng-show="model.error">{{model.error}}</div>
 <div class="alert alert-success" ng-show="model.message">{{model.message}}</div>
 

@@ -12,7 +12,12 @@
         var vm = this;
         vm.userId = $routeParams.uid;
         function init() {
-            vm.websites = WebsiteService.findWebsiteByUser(vm.userId);
+            WebsiteService
+                .findAllWebsitesForUser(vm.userId)
+                .success(function (response) {
+                    vm.websites = response;
+                });
+
         }
         init();
     }
@@ -23,20 +28,38 @@
         vm.createWebsite = createWebsite;
 
         function init() {
-            vm.websites = WebsiteService.findWebsiteByUser(vm.userId);
+            WebsiteService
+                .findAllWebsitesForUser(vm.userId)
+                .success(function(response) {
+                    vm.websites = response;
+                });
         }
         init();
 
         function createWebsite (website) {
-            if(website == null || website.name == "" || website.name == null || website.description == "" || website.description == null){
-                vm.error = "Please fill all details";
-                return;
+            if (website == null            ||
+                website.name == ""        ||
+                website.name == null      ||
+                website.description == "" ||
+                website.description == null) {
+                    vm.error = "Please fill all details";
+                    return;
             }
-            var res = WebsiteService.createWebsite(vm.userId, website);
-            if(res != null){
-                $location.url("/user/"+vm.userId+"/website");
-            }
-            vm.error = "An error has occurred.";
+
+            var newWebsite = {
+                name: website.name,
+                description: website.description,
+                developerId: vm.userId,
+                created: new Date()
+            };
+            WebsiteService
+                .createWebsite(vm.userId, newWebsite)
+                .success(function () {
+                    $location.url("/user/" + vm.userId + "/website");
+                })
+                .error(function () {
+                    vm.error = "An error has occurred.";
+                });
         }
     }
 
@@ -47,26 +70,49 @@
         vm.updateWebsite = updateWebsite;
         vm.deleteWebsite = deleteWebsite;
 
-        var website = WebsiteService.findWebsiteById(vm.websiteId);
-        vm.website = website;
         function init() {
-            vm.websites = WebsiteService.findWebsiteByUser(vm.userId);
+            WebsiteService
+                .findWebsiteById(vm.websiteId)
+                .success(function (response) {
+                    vm.website = response;
+                })
+                .error(function () {
+                    vm.error("An error has occurred!");
+                });
+            WebsiteService
+                .findAllWebsitesForUser(vm.userId)
+                .success(function (response) {
+                    vm.websites = response;
+                });
+
         }
         init();
 
         function updateWebsite (websiteId, website) {
-            var site = WebsiteService.updateWebsite(websiteId, website);
-            if(site == null) {
-                vm.error = "Unable to update website";
-            } else {
-                vm.message = "Website successfully updated"
-            }
+            WebsiteService
+                .updateWebsite(websiteId, website)
+                .success(function () {
+                    vm.message = "Website successfully updated";
+                    WebsiteService
+                        .findAllWebsitesForUser(vm.userId)
+                        .success(function (response) {
+                            vm.websites = response;
+                        });
+                })
+                .error(function () {
+                    vm.error = "Unable to update website";
+                });
         }
 
         function deleteWebsite () {
-            WebsiteService.deleteWebsite(vm.websiteId);
-            $location.url("/user/"+vm.userId+"/website");
-            vm.error = "Unable to delete website";
+            WebsiteService
+                .deleteWebsite(vm.websiteId)
+                .success(function () {
+                    $location.url("/user/"+vm.userId+"/website");
+                })
+                .error(function () {
+                    vm.error = "Unable to delete website";
+                });
         }
     }
 })();

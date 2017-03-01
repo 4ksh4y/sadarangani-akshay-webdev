@@ -22,25 +22,27 @@
 </nav>
 
 <div class="container-fluid as-bottom-pad">
-    <div ng-repeat="widget in model.widgets">
-        <div class="as-toolbar">
-            <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{widget._id}}">
-                <span class="glyphicon glyphicon-cog"></span>
-            </a>
-            <span class="glyphicon glyphicon-align-justify"></span>
-        </div>
-        <div ng-switch="widget.widgetType">
-            <div ng-switch-when="HEADING">
-                <ng-include src="'views/widget/templates/widget-heading.view.client.html'">
+    <div wbdv-sortable>
+        <div ng-repeat="widget in model.widgets">
+            <div class="as-toolbar">
+                <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget/{{widget._id}}">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </a>
+                <span class="glyphicon glyphicon-align-justify"></span>
             </div>
-            <div ng-switch-when="IMAGE">
-                <ng-include src="'views/widget/templates/widget-image.view.client.html'">
-            </div>
-            <div ng-switch-when="YOUTUBE">
-                <ng-include src="'views/widget/templates/widget-youtube.view.client.html'">
-            </div>
-            <div ng-switch-when="HTML">
-                <ng-include src="'views/widget/templates/widget-html.view.client.html'">
+            <div ng-switch="widget.widgetType">
+                <div ng-switch-when="HEADING">
+                    <ng-include src="'views/widget/templates/widget-heading.view.client.html'">
+                </div>
+                <div ng-switch-when="IMAGE">
+                    <ng-include src="'views/widget/templates/widget-image.view.client.html'">
+                </div>
+                <div ng-switch-when="YOUTUBE">
+                    <ng-include src="'views/widget/templates/widget-youtube.view.client.html'">
+                </div>
+                <div ng-switch-when="HTML">
+                    <ng-include src="'views/widget/templates/widget-html.view.client.html'">
+                </div>
             </div>
         </div>
     </div>

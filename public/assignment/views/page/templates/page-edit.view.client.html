@@ -61,7 +61,7 @@
                     <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}/widget">
                         {{page.name}}
                     </a>
-                    <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{model.pageId}}">
+                    <a href="#/user/{{model.userId}}/website/{{model.websiteId}}/page/{{page._id}}">
                         <span class="glyphicon glyphicon-cog pull-right"></span>
                     </a>
                 </div>
@@ -77,6 +77,10 @@
             <div class="form-group">
                 <label for="editPageDescription">Description</label>
                 <textarea ng-model="model.page.description" class="form-control" rows="5" id="editPageDescription" placeholder="Description"></textarea>
+            </div>
+            <div class="form-group">
+                <a class="btn btn-info btn-block" id="update-btn"
+                   ng-click="model.updatePage(model.pageId, model.page)">Update</a>
             </div>
             <div class="form-group">
                 <a class="btn btn-danger btn-block" id="delete-btn"

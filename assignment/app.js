@@ -1,7 +1,9 @@
 /**
- * Created by Akshay on 1/31/2017.
+ * Created by Akshay on 2/17/2017.
  */
-(function () {
-    angular
-        .module("WebAppMaker", ["ngRoute"]);
-})();
+module.exports = function (app) {
+    require('./services/user.service.server.js')(app);
+    require('./services/website.service.server.js')(app);
+    require('./services/page.service.server.js')(app);
+    require('./services/widget.service.server.js')(app);
+};

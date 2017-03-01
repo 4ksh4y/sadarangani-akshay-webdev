@@ -12,8 +12,13 @@
         var vm = this;
         vm.userId = $routeParams.uid;
         vm.websiteId = $routeParams.wid;
+
         function init() {
-            vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
+            PageService
+                .findAllPagesForWebsite(vm.websiteId)
+                .success(function (response) {
+                    vm.pages = response;
+                })
         }
         init();
     }
@@ -25,21 +30,38 @@
         vm.createPage = createPage;
 
         function init() {
-            vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
+            PageService
+                .findAllPagesForWebsite(vm.websiteId)
+                .success(function (response) {
+                    vm.pages = response;
+                });
         }
         init();
-        console.log(vm.pages);
 
         function createPage (page) {
-            if(page == null || page.name == null || page.name == "" || page.description == null || page.description == ""){
-                vm.error = "Please fill all details";
-                return;
+            if (page == null             ||
+                page.name == null        ||
+                page.name == ""          ||
+                page.description == null ||
+                page.description == "") {
+                    vm.error = "Please fill all details";
+                    return;
             }
-            var res = PageService.createPage(vm.websiteId, page);
-            if(res != null){
-                $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page");
-            }
-            vm.error = "An error has occurred.";
+
+            var newPage = {
+                name: page.name,
+                description: page.description,
+                websiteId: vm.websiteId,
+                created: new Date()
+            };
+            PageService
+                .createPage(vm.websiteId, newPage)
+                .success(function() {
+                    $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page");
+                })
+                .error(function () {
+                    vm.error = "An error has occurred.";
+                });
         }
     }
 
@@ -50,24 +72,43 @@
         vm.pageId = $routeParams.pid;
         vm.deletePage = deletePage;
         vm.updatePage = updatePage;
-        vm.page = PageService.findPageById(vm.pageId);
 
         function init() {
-            vm.pages = PageService.findPageByWebsiteId(vm.websiteId);
+            PageService
+                .findPageById(vm.pageId)
+                .success(function (response) {
+                    vm.page = response;
+                });
+            PageService.findAllPagesForWebsite(vm.websiteId)
+                .success(function (response) {
+                    vm.pages = response;
+                });
         }
         init();
 
         function updatePage (pageId, page) {
-            var page = PageService.updatePage(pageId, page);
-            if(page == null) {
-                vm.error = "Unable to update page";
-            } else {
-                vm.message = "Page successfully updated"
-            }
-        }
+            PageService
+                .updatePage(pageId, page)
+                .success(function () {
+                    vm.message = "Page successfully updated";
+                    PageService.findAllPagesForWebsite(vm.websiteId)
+                        .success(function (response) {
+                            vm.pages = response;
+                        });
+                })
+                .error(function () {
+                    vm.error = "Unable to update page";
+                });
+         }
         function deletePage () {
-            PageService.deletePage(vm.pageId);
-            $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page");
+            PageService
+                .deletePage(vm.pageId)
+                .success(function () {
+                    $location.url("/user/"+vm.userId+"/website/"+vm.websiteId+"/page");
+                })
+                .error(function () {
+                    vm.error = "An error has occurred";
+                });
         }
     }
 })();
