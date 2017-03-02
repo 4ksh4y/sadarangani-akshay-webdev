@@ -3,7 +3,18 @@
         .module("WebAppMaker")
         .controller("WidgetListController", WidgetListController)
         .controller("WidgetNewController", WidgetNewController)
-        .controller("WidgetEditController", WidgetEditController);
+        .controller("WidgetEditController", WidgetEditController)
+        .controller("ImageTabsController", ImageTabsController);
+
+
+
+    function ImageTabsController ($scope, $window) {
+        $scope.tabs = [
+            {title: 'Dynamic Title 1', content: 'Dynamic content 1'},
+            {title: 'Dynamic Title 2', content: 'Dynamic content 2', disabled: true}
+        ];
+    }
+
 
     function WidgetListController($routeParams, WidgetService, $sce) {
         var vm = this;

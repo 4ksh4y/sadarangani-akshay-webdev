@@ -70,10 +70,36 @@ module.exports = function (app) {
         var pageId = req.params.pageId;
         var initialIndex = parseInt(req.query.initial);
         var finalIndex = parseInt(req.query.final);
-        var page_widgets = widgets.filter(function (w) {
-            return w.pageId === pageId;
+        var page_widgets = widgets.filter(function (widget) {
+            return widget.pageId === pageId;
         });
 
+        var fromWidget = page_widgets.find(function (widget) {
+            return widget.index == initialIndex;
+        });
+
+        var toWidget = page_widgets.find(function (widget) {
+            return widget.index == finalIndex;
+        });
+
+        fromWidget.index = finalIndex;
+
+        if(initialIndex < finalIndex){
+            page_widgets.filter(function (widget) {
+                return widget.index > initialIndex && widget.index < finalIndex;
+            }).map(function (w) {
+                w.index -= 1;
+            });
+            toWidget.index -=1;
+        }
+        else {
+            page_widgets.filter(function (widget) {
+                return widget.index < initialIndex && widget.index > finalIndex;
+            }).map(function (w) {
+                w.index += 1;
+            });
+            toWidget.index +=1;
+        }
         res.sendStatus(200);
     }
 
