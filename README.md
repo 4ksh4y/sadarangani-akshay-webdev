@@ -8,8 +8,9 @@ A web app being developed as part of CS5610 that allows users to create and use 
 ![img](Images/Login.PNG)
 ![img](Images/Register.PNG)
 ![img](Images/Websites.PNG)
-![img](Images/New page.PNG)
+![img](Images/New%20page.PNG)
 ![img](Images/Widgets.PNG)
-![img](Images/Widget chooser.PNG)
+![img](Images/Widget%20chooser.PNG)
+![img](Images/Image%20editor.PNG)
 ## Bugs and Feedback
 For bugs, questions and discussions please use the [Github Issues](https://github.com/aksh4y/sadarangani-akshay-webdev/issues).
