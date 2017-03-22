@@ -25,7 +25,7 @@
                     $location.url('/user/' + user._id);
             });
             promise.error(function (user) {
-                vm.error = 'User not found';
+                vm.error = 'Username and/or password incorrect!';
             });
         }
     }
@@ -78,7 +78,9 @@
                 user.username == ""   ||
                 user.password == ""   ||
                 user.email == null    ||
-                user.email == ""){
+                user.email == ""      ||
+                user.phone == null    ||
+                user.phone == ""){
                     vm.error = "Please enter all your details!";
                     return;
             }
@@ -97,7 +99,8 @@
                         password: user.password,
                         firstName: user.firstName,
                         lastName: user.lastName,
-                        email: user.email
+                        email: user.email,
+                        phone: user.phone
                     };
                     UserService.createUser(newUser)
                         .success(function(user) {

@@ -4,11 +4,11 @@
 
 (function () {
     angular
-        .module('wbdvDirectives', [])
-        .directive('wbdvDraggable', wbdvDraggableDir)
-        .directive('wbdvSortable', wbdvSortableDir);
+        .module('wamDirectives', [])
+        .directive('wamDraggable', wamDraggableDir)
+        .directive('wamSortable', wamSortableDir);
 
-    function wbdvSortableDir() {
+    function wamSortableDir() {
         function linkFunc (scope, element, attributes, sort) {
             element.sortable(
                 {
@@ -42,7 +42,7 @@
         }
     }
 
-    function wbdvDraggableDir() {
+    function wamDraggableDir() {
         function linkFunction(scope, element) {
             element.draggable();
         }
