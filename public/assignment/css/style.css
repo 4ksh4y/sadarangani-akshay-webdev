@@ -128,3 +128,7 @@ li>a {
 .text-angular {
     background: black;
 }
+
+textarea {
+    margin-bottom: 5px;
+}

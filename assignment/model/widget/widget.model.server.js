@@ -7,8 +7,8 @@ module.exports = function () {
     var mongoose = require("mongoose");
     var q = require('q');
 
-    var WidgetSchema = require('./widget.schema.server')();
-    var WidgetModel = mongoose.model('WidgetModel', WidgetSchema);
+    var widgetSchema = require('./widget.schema.server')();
+    var widgetModel = mongoose.model('widgetModel', widgetSchema);
     var fs = require("fs");
     var publicDirectory =__dirname+"/../../../public";
 
@@ -18,31 +18,18 @@ module.exports = function () {
         "findWidgetById":findWidgetById,
         "updateWidget":updateWidget,
         "deleteWidget":deleteWidget,
-        "deleteWidgetOfPage":deleteWidgetOfPage,
         "reorderWidget":reorderWidget,
         "setModel":setModel
     };
 
     return api;
 
-    function deleteUploadedImage(imageUrl) {
-        // Local helper function
-        if(imageUrl && imageUrl.search('http') == -1){
-            fs.unlink(publicDirectory+imageUrl, function (err) {
-                if(err){
-                    console.log(err);
-                    return;
-                }
-                console.log('successfully deleted '+ publicDirectory + imageUrl);
-            });
-        }
-    }
 
     function createWidget(pageId, newWidget) {
         var d = q.defer();
         console.log("attempting to create widget");
         newWidget._page = pageId;
-        WidgetModel
+        widgetModel
             .create(newWidget, function (err, w) {
                 if (err) {
                     d.reject(err);
@@ -63,22 +50,9 @@ module.exports = function () {
         return d.promise;
     }
 
-    function getWidgetsRecursively(count, widgetsOfPage, widgetCollectionForPage) {
-        if(count == 0){
-            return widgetCollectionForPage;
-        }
-
-        return WidgetModel.findById(widgetsOfPage.shift()).select('-__v')
-            .then(function (widget) {
-                widgetCollectionForPage.push(widget);
-                return getWidgetsRecursively(--count, widgetsOfPage, widgetCollectionForPage);
-            }, function (err) {
-                return err;
-            });
-    }
     function findAllWidgetsForPage(pageId){
         var d = q.defer();
-        WidgetModel
+        widgetModel
             .find({"_page": pageId}, function (err, widgets) {
                 if (err) {
                     d.reject(err);
@@ -88,13 +62,22 @@ module.exports = function () {
             });
         return d.promise;
     }
+
     function findWidgetById(widgetId){
-        return WidgetModel.findById(widgetId).select('-__v');
+        var d = q.defer();
+        widgetModel
+            .findById(widgetId)
+            .then(function(widget) {
+                d.resolve(widget);
+            }, function(err) {
+                d.reject(err);
+            });
+        return d.promise;
     }
 
     function updateWidget(widgetId, updatedWidget){
         var d = q.defer();
-        WidgetModel
+        widgetModel
             .findOneAndUpdate({_id: widgetId}, {$set: updatedWidget}, function (err, updatedWidget) {
                 if (err) {
                     console.log("error in model");
@@ -107,43 +90,54 @@ module.exports = function () {
         return d.promise;
     }
     function deleteWidget(widgetId){
-        // Delete the widget, its reference in the parent page and delete the image
-        // associated (if the widget is an IMAGE widget)
-        return WidgetModel.findById(widgetId).populate('_page').then(function (widget) {
-            widget._page.widgets.splice(widget._page.widgets.indexOf(widgetId),1);
-            widget._page.save();
-            if(widget.type == "IMAGE"){
-                deleteUploadedImage(widget.url);
-            }
-            return WidgetModel.remove({_id:widgetId});
-        }, function (err) {
-            return err;
-        });
-    }
-
-    function deleteWidgetOfPage(widgetId) {
-        // Delete the widget and the associated image (if present)
-        return WidgetModel.findById(widgetId)
+        var d = q.defer();
+        widgetModel
+            .findById(widgetId).populate('_page')
             .then(function (widget) {
+                console.log("widget found with _page "+widget+"\n"+"widget_page");
+                widget._page.widgets.splice(widget._page.widgets.indexOf(widgetId),1);
+                widget._page.save();
                 if(widget.type == "IMAGE"){
                     deleteUploadedImage(widget.url);
                 }
-                return WidgetModel.remove({_id: widgetId});
-            }, function (err) {
-                return err;
+                console.log("widget spliced successfully");
+                widgetModel
+                    .remove({_id:widgetId})
+                    .then(function() {
+                        d.resolve();
+                    }, function (err) {
+                        d.reject(err);
+                    });
+        }, function (err) {
+            d.reject(err);
+        });
+        return d.promise;
+    }
+
+    function deleteUploadedImage(imageUrl) {
+        // Local helper function
+        if(imageUrl && imageUrl.search('http') == -1){
+            fs.unlink(publicDirectory+imageUrl, function (err) {
+                if(err){
+                    console.log(err);
+                    return;
+                }
             });
+        }
     }
 
     function reorderWidget(pageId, start, end) {
-        return model.pageModel
+        var d = q.defer();
+        model.pageModel
             .findPageById(pageId)
             .then(function (page) {
                 page.widgets.splice(end, 0, page.widgets.splice(start, 1)[0]);
                 page.save();
-                return 200;
+                d.resolve();
             }, function (err) {
-                return err;
+                d.reject(err);
             });
+        return d.promise;
     }
 
     function setModel(_model) {

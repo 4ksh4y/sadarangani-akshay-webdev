@@ -93,7 +93,7 @@
                 .success(function (user) {
                     vm.error = "Username " + user.username + " already in use.";
                 })
-                .error(function() {
+                .error(function(err) {
                     var newUser = {
                         username: user.username,
                         password: user.password,

@@ -92,56 +92,54 @@ module.exports = function () {
         return d.promise;
     }
 
-    function deleteWebsite(websiteId) {
-        var deferred = q.defer();
-        findWebsiteById(websiteId)
-            .then(function (w) {
+
+    function deleteWebsite(websiteId){
+        var d = q.defer();
+        websiteModel
+            .findById(websiteId).populate('_user')
+            .then(function (website) {
+                website._user.websites.splice(website._user.websites.indexOf(websiteId),1);
+                website._user.save();
                 deleteWebsitePages(websiteId)
                     .then(function() {
-                        model.userModel
-                            .removeWebsite(w)
+                        websiteModel
+                            .remove({_id: websiteId})
                             .then(function() {
-                                console.log("the actual websit e removal");
-                                websiteModel
-                                    .remove({"_id": websiteId}, function (err, status) {
-                                        if (err) {
-                                            deferred.abort(err);
-                                        } else {
-                                            deferred.resolve(status);
-                                        }
-                                    });
+                                d.resolve();
+                            }, function (err) {
+                                d.reject(err);
+                            });
                     }, function(err) {
-                                deferred.reject(err);
-                        });
-
-                    }, function (err) {
-                        deferred.reject(err);
+                        d.reject(err);
                     });
 
-            }, function(err) {
-                deferred.reject(err);
+            }, function (err) {
+                d.reject(err);
             });
-
-        return deferred.promise;
+        return d.promise;
     }
 
     function setModel(_model) {
         model = _model;
     }
 
+
     function deleteWebsitePages(websiteId) {
-        console.log("inside delete website pages");
         var deferred = q.defer();
+
         model.pageModel
             .findAllPagesForWebsite(websiteId)
             .then(function (pages) {
-                console.log(pages);
                 for(var p in pages) {
                     model.pageModel
-                        .deletePage(pages[p]._id);
+                        .deletePage(pages[p]._id)
+                        .then(function() {
+                            console.log("website pages should have been deleted here");
+                            deferred.resolve();
+                        }, function(err) {
+                            deferred.reject(err);
+                        });
                 }
-                console.log("deleted website pages");
-                deferred.resolve();
             }, function (err) {
                 deferred.reject(err);
             });

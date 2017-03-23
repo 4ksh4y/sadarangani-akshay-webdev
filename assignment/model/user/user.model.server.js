@@ -16,8 +16,7 @@ module.exports = function () {
         "findUserByUsername": findUserByUsername,
         "findUserByCredentials": findUserByCredentials,
         "updateUser": updateUser,
-        "deleteUser": deleteUser,
-        "removeWebsite": removeWebsite
+        "deleteUser": deleteUser
     };
 
     return api;
@@ -50,59 +49,44 @@ module.exports = function () {
         return d.promise;
     }
 
-    function deleteUser(userId) {
-        var deferred = q.defer();
 
-        deleteWebsitesForUser(userId)
-            .then(function(userId) {
-                console.log("removing user");
+    function deleteUser(userId){
+        var d = q.defer();
+        deleteUserWebsites(userId)
+            .then(function() {
                 userModel
-                    .remove({_id: userId}, function (err, status) {
-                        if(err) {
-                            deferred.reject(err);
-                        } else {
-                            deferred.resolve(status);
-                        }
+                    .remove({_id: userId})
+                    .then(function() {
+                        d.resolve();
+                    }, function (err) {
+                        d.reject(err);
                     });
-            }, function (err) {
-                deferred.reject(err);
+            }, function(err) {
+                d.reject(err);
             });
 
-        return deferred.promise;
+        return d.promise;
     }
 
-    function removeWebsite(website) {
-        console.log("attempt to remove website from user profile");
+    function deleteUserWebsites(userId) {
         var deferred = q.defer();
-        findUserById(website[0]._user)
-            .then(function(user) {
-                //console.log(user);
-               // console.log(website);
-                user.websites.pull(website[0]);
-                user.save();
-                console.log("removed website from user profile");
-                deferred.resolve();
-            },function(err) {
-                deferred.reject(err);
-            });
-        return deferred.promise;
-    }
 
-    function deleteWebsitesForUser(userId) {
-        var deferred = q.defer();
-        console.log("inside deletewebsitesforuser");
         model.websiteModel
             .findAllWebsitesForUser(userId)
             .then(function (websites) {
                 for(var w in websites) {
                     model.websiteModel
-                        .deleteWebsite(websites[w]._id);
+                        .deleteWebsite(websites[w]._id)
+                        .then(function() {
+                            console.log("user websites should have been deleted here");
+                            deferred.resolve();
+                        }, function(err) {
+                            deferred.reject(err);
+                        });
                 }
-                deferred.resolve(userId);
-            }, function(err) {
+            }, function (err) {
                 deferred.reject(err);
             });
-
         return deferred.promise;
     }
 

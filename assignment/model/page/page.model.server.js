@@ -91,31 +91,31 @@ module.exports = function () {
             });
         return d.promise;
     }
-    function deletePage(pageId) {
-        var deferred = q.defer();
-        findPageById(pageId)
-            .then(function (p) {
-                model.websiteModel
-                    .removePage(p)
-                    .then(function() {
-                        console.log("attempt to remove page");
-                        pageModel
-                            .remove({"_id": pageId}, function (err, status) {
-                                if (err) {
-                                    deferred.reject(err);
-                                } else {
-                                    console.log("deleted page");
-                                    deferred.resolve(status);
-                                }
-                            });
-                    }, function (err) {
-                        deferred.reject(err);
-                    });
-            }, function(err) {
-                deferred.reject(err);
-            });
 
-        return deferred.promise;
+    function deletePage(pageId){
+        var d = q.defer();
+        pageModel
+            .findById(pageId).populate('_website')
+            .then(function (page) {
+                page._website.pages.splice(page._website.pages.indexOf(pageId),1);
+                page._website.save();
+                deletePageWidgets(pageId)
+                    .then(function() {
+                        pageModel
+                            .remove({_id:pageId})
+                            .then(function() {
+                                d.resolve();
+                            }, function (err) {
+                                d.reject(err);
+                            });
+                    }, function(err) {
+                        d.reject(err);
+                    });
+
+            }, function (err) {
+                d.reject(err);
+            });
+        return d.promise;
     }
 
 
@@ -129,9 +129,17 @@ module.exports = function () {
         model.widgetModel
             .findAllWidgetsForPage(pageId)
             .then(function (widgets) {
+                console.log("all page widgets "+widgets);
                 for(var w in widgets) {
+                    console.log("widget id: "+widgets[w]._id);
                     model.widgetModel
-                        .deleteWidget(widgets[w]._id);
+                        .deleteWidget(widgets[w]._id)
+                        .then(function() {
+                            console.log("should have been deleted here");
+                            deferred.resolve();
+                        }, function(err) {
+                            deferred.reject(err);
+                        });
                 }
             }, function (err) {
                 deferred.reject(err);
