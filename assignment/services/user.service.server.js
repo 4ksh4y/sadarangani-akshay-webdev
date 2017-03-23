@@ -110,10 +110,7 @@ module.exports = function (app, userModel) {
                 userModel
                     .updateUser(userId, newUser)
                     .then(function (response) {
-                        if (response.nModified === 1)
-                            res.json(response);
-                        else
-                            res.sendStatus(500);
+                        res.sendStatus(200);
                     }, function () {
                         res.sendStatus(500);
                     });
