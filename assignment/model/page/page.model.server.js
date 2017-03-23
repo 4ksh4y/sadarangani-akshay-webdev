@@ -141,13 +141,10 @@ module.exports = function () {
         model.widgetModel
             .findAllWidgetsForPage(pageId)
             .then(function (widgets) {
-                console.log("all page widgets "+widgets);
                 for(var w in widgets) {
-                    console.log("widget id: "+widgets[w]._id);
                     model.widgetModel
                         .deleteWidget(widgets[w]._id)
                         .then(function() {
-                            console.log("should have been deleted here");
                             deferred.resolve();
                         }, function(err) {
                             deferred.reject(err);

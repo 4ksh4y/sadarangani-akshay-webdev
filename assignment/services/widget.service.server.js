@@ -80,6 +80,20 @@ module.exports = function (app, widgetModel) {
         var pageId = req.params.pageId;
         var initialIndex = parseInt(req.query.initial);
         var finalIndex = parseInt(req.query.final);
+
+        widgetModel
+            .reorderWidget(pageId, initialIndex, finalIndex)
+            .then(function (response) {
+                res.sendStatus(response);
+            }, function (err) {
+                res.sendStatus(404);
+            });
+    }
+
+    /*function updateWidgetIndex(req, res) {
+        var pageId = req.params.pageId;
+        var initialIndex = parseInt(req.query.initial);
+        var finalIndex = parseInt(req.query.final);
         widgetModel
             .findAllWidgetsForPage(pageId)
             .then(function(page_widgets) {
@@ -125,7 +139,7 @@ module.exports = function (app, widgetModel) {
             });
 
         res.sendStatus(200);
-    }
+    }*/
 
     function findWidgetById(req, res) {
         var widgetId = req.params['widgetId'];
@@ -143,7 +157,6 @@ module.exports = function (app, widgetModel) {
         widgetModel
             .findAllWidgetsForPage(pageId)
             .then(function (widgets) {
-                console.log("all widgets seem to be found in service");
                 sortWidgets(widgets, 'index');  //Sort the widgets based on index
                 res.json(widgets);
             }, function(err) {
@@ -220,7 +233,7 @@ module.exports = function (app, widgetModel) {
     function createWidget(req, res) {
         var newWidget= req.body;
         var pageId = req.params.pageId;
-        var newIndex = 0;
+        /*var newIndex = 0;
        widgetModel
             .findAllWidgetsForPage(pageId)
             .then(function (widgets) {
@@ -231,7 +244,7 @@ module.exports = function (app, widgetModel) {
                 newWidget.index = newIndex;
             }, function(err) {
                res.sendStatus(404);
-            });
+            });*/
         widgetModel
             .createWidget(pageId, newWidget)
             .then(function (widget) {

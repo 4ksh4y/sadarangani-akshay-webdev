@@ -27,20 +27,17 @@ module.exports = function () {
 
     function createWidget(pageId, newWidget) {
         var d = q.defer();
-        console.log("attempting to create widget");
         newWidget._page = pageId;
         widgetModel
             .create(newWidget, function (err, w) {
                 if (err) {
                     d.reject(err);
                 } else {
-                    console.log("created widget");
                     model.pageModel
                         .findPageById(pageId)
                         .then(function (page) {
                             page[0].widgets.push(w._id);
                             page[0].save();
-                            console.log("widget added to pages array");
                             d.resolve(w);
                         }, function (err) {
                             d.reject(err);
@@ -50,17 +47,67 @@ module.exports = function () {
         return d.promise;
     }
 
-    function findAllWidgetsForPage(pageId){
+    /*function findAllWidgetsForPage(pageId){
         var d = q.defer();
-        widgetModel
+        var widgets = [];
+        /!*widgetModel
             .find({"_page": pageId}, function (err, widgets) {
                 if (err) {
                     d.reject(err);
                 } else {
+                    console.log(widgets);
                     d.resolve(widgets);
                 }
+            });*!/
+        model.pageModel
+            .findPageById(pageId)
+            .then(function(page) {
+                console.log(page[0].widgets);
+                for(var w in page[0].widgets) {
+                    console.log(page[0].widgets[w]);
+                    widgetModel
+                        .findById(page[0].widgets[w])
+                        .then(function (wgt) {
+                            //console.log(wgt);
+                            widgets.push(wgt);
+                        }, function (err) {
+                            d.reject(err);
+                        });
+                }
+               // console.log("widgets: "+widgets);
+                d.resolve(widgets);
+            }, function(err) {
+                d.reject(err);
             });
         return d.promise;
+    }*/
+    function findAllWidgetsForPage(pageId){
+        return model.pageModel
+            .findPageById(pageId)
+            .then(function (page) {
+                //console.log(page);
+                var widgetsOfPage = page[0].widgets;
+                var numberOfWidgets = widgetsOfPage.length;
+                var widgetCollectionForPage = [];
+
+                return getWidgetsRecursively(numberOfWidgets, widgetsOfPage, widgetCollectionForPage);
+            }, function (error) {
+                return error;
+            });
+    }
+
+    function getWidgetsRecursively(count, widgetsOfPage, widgetCollectionForPage) {
+        if(count == 0){
+            return widgetCollectionForPage;
+        }
+
+        return widgetModel.findById(widgetsOfPage.shift()).select('-__v')
+            .then(function (widget) {
+                widgetCollectionForPage.push(widget);
+                return getWidgetsRecursively(--count, widgetsOfPage, widgetCollectionForPage);
+            }, function (error) {
+                return error;
+            });
     }
 
     function findWidgetById(widgetId){
@@ -80,10 +127,8 @@ module.exports = function () {
         widgetModel
             .findOneAndUpdate({_id: widgetId}, {$set: updatedWidget}, function (err, updatedWidget) {
                 if (err) {
-                    console.log("error in model");
                     d.reject(err);
                 } else {
-                    console.log("model updated widget successfully");
                     d.resolve(updatedWidget);
                 }
             });
@@ -94,13 +139,11 @@ module.exports = function () {
         widgetModel
             .findById(widgetId).populate('_page')
             .then(function (widget) {
-                console.log("widget found with _page "+widget+"\n"+"widget_page");
                 widget._page.widgets.splice(widget._page.widgets.indexOf(widgetId),1);
                 widget._page.save();
                 if(widget.type == "IMAGE"){
                     deleteUploadedImage(widget.url);
                 }
-                console.log("widget spliced successfully");
                 widgetModel
                     .remove({_id:widgetId})
                     .then(function() {
@@ -131,9 +174,10 @@ module.exports = function () {
         model.pageModel
             .findPageById(pageId)
             .then(function (page) {
-                page.widgets.splice(end, 0, page.widgets.splice(start, 1)[0]);
-                page.save();
-                d.resolve();
+                page[0].widgets.splice(end, 0, page[0].widgets.splice(start, 1)[0]);
+                page[0].save();
+                //d.resolve();
+                return 200;
             }, function (err) {
                 d.reject(err);
             });

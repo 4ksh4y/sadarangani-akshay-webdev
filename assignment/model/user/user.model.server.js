@@ -95,7 +95,6 @@ module.exports = function () {
                     model.websiteModel
                         .deleteWebsite(websites[w]._id)
                         .then(function() {
-                            console.log("website pages should have been deleted here");
                             deferred.resolve();
                         }, function(err) {
                             deferred.reject(err);

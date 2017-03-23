@@ -145,7 +145,6 @@ module.exports = function () {
                     model.pageModel
                         .deletePage(pages[p]._id)
                         .then(function() {
-                            console.log("website pages should have been deleted here");
                             deferred.resolve();
                         }, function(err) {
                             deferred.reject(err);
@@ -159,10 +158,8 @@ module.exports = function () {
 
     function removePage(page) {
         var deferred = q.defer();
-        console.log("inside reove page");
         findWebsiteById(page[0]._website)
             .then(function(website) {
-                console.log("remove found page")
                 website[0].pages.pull(page[0]);
                 website[0].save();
                 deferred.resolve();

@@ -40,8 +40,10 @@
                 <div ng-switch-when="IMAGE">
                     <ng-include src="'views/widget/templates/widget-image.view.client.html'">
                 </div>
-                <div ng-switch-when="YOUTUBE" class="youtube-widget">
-                    <ng-include src="'views/widget/templates/widget-youtube.view.client.html'">
+                <div style="width:{{widget.width}}; height:{{widget.height}}">
+                    <div ng-switch-when="YOUTUBE" class="youtube-widget">
+                        <ng-include src="'views/widget/templates/widget-youtube.view.client.html'">
+                    </div>
                 </div>
                 <div ng-switch-when="HTML">
                     <ng-include src="'views/widget/templates/widget-html.view.client.html'">
