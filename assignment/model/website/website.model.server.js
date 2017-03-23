@@ -100,18 +100,29 @@ module.exports = function () {
             .then(function (website) {
                 website._user.websites.splice(website._user.websites.indexOf(websiteId),1);
                 website._user.save();
-                deleteWebsitePages(websiteId)
-                    .then(function() {
-                        websiteModel
-                            .remove({_id: websiteId})
-                            .then(function() {
-                                d.resolve();
-                            }, function (err) {
-                                d.reject(err);
-                            });
-                    }, function(err) {
-                        d.reject(err);
-                    });
+                if(website.pages.length !=0) {
+                    deleteWebsitePages(websiteId)
+                        .then(function () {
+                            websiteModel
+                                .remove({_id: websiteId})
+                                .then(function () {
+                                    d.resolve();
+                                }, function (err) {
+                                    d.reject(err);
+                                });
+                        }, function (err) {
+                            d.reject(err);
+                        });
+                }
+                else {
+                    websiteModel
+                        .remove({_id: websiteId})
+                        .then(function () {
+                            d.resolve();
+                        }, function (err) {
+                            d.reject(err);
+                        });
+                }
 
             }, function (err) {
                 d.reject(err);

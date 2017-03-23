@@ -99,18 +99,30 @@ module.exports = function () {
             .then(function (page) {
                 page._website.pages.splice(page._website.pages.indexOf(pageId),1);
                 page._website.save();
-                deletePageWidgets(pageId)
-                    .then(function() {
-                        pageModel
-                            .remove({_id:pageId})
-                            .then(function() {
-                                d.resolve();
-                            }, function (err) {
-                                d.reject(err);
-                            });
-                    }, function(err) {
-                        d.reject(err);
-                    });
+                if(page.widgets.length != 0) {
+                    deletePageWidgets(pageId)
+                        .then(function() {
+                            pageModel
+                                .remove({_id:pageId})
+                                .then(function() {
+                                    d.resolve();
+                                }, function (err) {
+                                    d.reject(err);
+                                });
+                        }, function(err) {
+                            d.reject(err);
+                        });
+                }
+                else {
+                    pageModel
+                        .remove({_id:pageId})
+                        .then(function() {
+                            d.resolve();
+                        }, function (err) {
+                            d.reject(err);
+                        });
+                }
+
 
             }, function (err) {
                 d.reject(err);

@@ -52,18 +52,35 @@ module.exports = function () {
 
     function deleteUser(userId){
         var d = q.defer();
-        deleteUserWebsites(userId)
-            .then(function() {
-                userModel
-                    .remove({_id: userId})
-                    .then(function() {
-                        d.resolve();
-                    }, function (err) {
-                        d.reject(err);
-                    });
+        findUserById(userId)
+            .then(function(user) {
+                if(user.websites.length != 0) {
+                    deleteUserWebsites(userId)
+                        .then(function() {
+                            userModel
+                                .remove({_id: userId})
+                                .then(function() {
+                                    d.resolve();
+                                }, function (err) {
+                                    d.reject(err);
+                                });
+                        }, function(err) {
+                            d.reject(err);
+                        });
+                } else {
+                    userModel
+                        .remove({_id: userId})
+                        .then(function() {
+                            d.resolve();
+                        }, function (err) {
+                            d.reject(err);
+                        });
+                }
+
             }, function(err) {
                 d.reject(err);
             });
+
 
         return d.promise;
     }
@@ -78,7 +95,7 @@ module.exports = function () {
                     model.websiteModel
                         .deleteWebsite(websites[w]._id)
                         .then(function() {
-                            console.log("user websites should have been deleted here");
+                            console.log("website pages should have been deleted here");
                             deferred.resolve();
                         }, function(err) {
                             deferred.reject(err);
